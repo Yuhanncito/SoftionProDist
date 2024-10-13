@@ -1,5 +1,4 @@
 if (!self.define) {
-
   let e,
     i = {};
   const s = (s, r) => (
@@ -35,8 +34,8 @@ define(["./workbox-3e911b1d"], function (e) {
     e.precacheAndRoute(
       [
         { url: "assets/index-B_S6gtpN.css", revision: null },
-        { url: "assets/index-C679bYcw.js", revision: null },
-        { url: "index.html", revision: "cec179a30062d01333a810599ea9daed" },
+        { url: "assets/index-D1hzEfhR.js", revision: null },
+        { url: "index.html", revision: "753b6eb286bfcc5a1f0c3dd936ad61fe" },
         { url: "registerSW.js", revision: "1872c500de691dce40960bb85481de07" },
         {
           url: "service-worker.js",
