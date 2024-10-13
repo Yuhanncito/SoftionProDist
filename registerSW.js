@@ -1,5 +1,6 @@
 const PUBLICKEY = "BBeSyh4-JimNpNCTwdyyUBujq1iaIoOby-Kqk8yv_GE7JAjOf8LU8xJVT9poP3Ccch0Q8IugJsGQVUnoojAxSXo";
 
+    const Url2 = 'http://localhost:4000/api/test';
   const Url = 'https://softion-api-v3.vercel.app/api/test';
 
 function urlBase64ToUint8Array(base64String) {
@@ -31,7 +32,9 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
           headers: {
             "Content-Type": "application/json",
           },
-        });
+        }).then( ()=>{
+          window.localStorage.setItem('subscription', JSON.stringify(subscription));
+        } );
       })
       .catch((error) =>
         console.error("Error during service worker registration:", error)

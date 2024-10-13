@@ -1,8 +1,8 @@
 if (!self.define) {
   let e,
     i = {};
-  const s = (s, r) => (
-    (s = new URL(s + ".js", r).href),
+  const s = (s, f) => (
+    (s = new URL(s + ".js", f).href),
     i[s] ||
       new Promise((i) => {
         if ("document" in self) {
@@ -15,28 +15,29 @@ if (!self.define) {
         return e;
       })
   );
-  self.define = (r, n) => {
-    const o =
+  self.define = (f, r) => {
+    const n =
       e ||
       ("document" in self ? document.currentScript.src : "") ||
       location.href;
-    if (i[o]) return;
-    let f = {};
-    const t = (e) => s(e, o),
-      l = { module: { uri: o }, exports: f, require: t };
-    i[o] = Promise.all(r.map((e) => l[e] || t(e))).then((e) => (n(...e), f));
+    if (i[n]) return;
+    let o = {};
+    const l = (e) => s(e, n),
+      t = { module: { uri: n }, exports: o, require: l };
+    i[n] = Promise.all(f.map((e) => t[e] || l(e))).then((e) => (r(...e), o));
   };
 }
-define(["./workbox-3e911b1d"], function (e) {
+define(["./workbox-7cfec069"], function (e) {
   "use strict";
-  self.skipWaiting(),
-    e.clientsClaim(),
+  self.addEventListener("message", (e) => {
+    e.data && "SKIP_WAITING" === e.data.type && self.skipWaiting();
+  }),
     e.precacheAndRoute(
       [
         { url: "assets/index-B_S6gtpN.css", revision: null },
-        { url: "assets/index-D1hzEfhR.js", revision: null },
-        { url: "index.html", revision: "753b6eb286bfcc5a1f0c3dd936ad61fe" },
-        { url: "registerSW.js", revision: "1872c500de691dce40960bb85481de07" },
+        { url: "assets/index-CwDXDUzT.js", revision: null },
+        { url: "index.html", revision: "ed868b8b5f4e26a89953f60b224f0c4d" },
+        { url: "registerSW.js", revision: "bffaacfd7a0766dc14efff8f56cd9854" },
         {
           url: "service-worker.js",
           revision: "e9104e72783ba8667fa411ad5ac165b8",
@@ -66,10 +67,9 @@ define(["./workbox-3e911b1d"], function (e) {
       new e.NavigationRoute(e.createHandlerBoundToURL("index.html"))
     );
 });
-
 self.addEventListener('push', event => {
-    const data = event.data.json();
-    self.registration.showNotification(data.title, {
-      body: data.body,
-    });
+  const data = event.data.json();
+  self.registration.showNotification(data.title, {
+    body: data.body,
   });
+});
