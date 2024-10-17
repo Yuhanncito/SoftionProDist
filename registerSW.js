@@ -26,20 +26,23 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
         activeWorker = registration.waiting;
       } else if (registration.installing) {
         activeWorker = await new Promise((resolve, reject) => {
-          registration.installing.addEventListener("statechange", (e) => {
-            if (registration.installing.state === "activated") {
+          const stateChangeListener = (e) => {
+            if (registration.installing?.state === "activated") {
               resolve(registration.installing);
-            } else if (registration.installing.state === "redundant") {
+              registration.installing.removeEventListener("statechange", stateChangeListener);
+            } else if (registration.installing?.state === "redundant") {
               reject(new Error("Installation failed"));
+              registration.installing.removeEventListener("statechange", stateChangeListener);
             }
-          });
+          };
+
+          registration.installing?.addEventListener("statechange", stateChangeListener);
         });
       } else {
         activeWorker = registration.active;
       }
 
       if (activeWorker) {
-        // Verifica si ya existe una suscripción
         let subscription = await registration.pushManager.getSubscription();
         if (!subscription) {
           subscription = await registration.pushManager.subscribe({
@@ -61,8 +64,6 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     } catch (error) {
       console.error("Error durante el registro del Service Worker:", error);
     }
-  });
-}
-
+  
 
 
