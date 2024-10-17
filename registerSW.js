@@ -64,6 +64,8 @@ if ("serviceWorker" in navigator && "PushManager" in window) {
     } catch (error) {
       console.error("Error durante el registro del Service Worker:", error);
     }
+  });
+}
   
 
 
